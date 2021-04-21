@@ -59,11 +59,8 @@ public class StaticArray implements Array {
     @Override
     public void reverse() {
         // TODO: перевернуть массив
-        int tmp;
         for (int i = 0; i < (this.size() / 2); i++) {
-            tmp = array[i];
-            array[i] = array[this.size() - i - 1];
-            array[this.size() - i - 1] = tmp;
+            swap(array, i, size() - i - 1);
         }
     }
 
@@ -120,15 +117,12 @@ public class StaticArray implements Array {
     private void bubbleSort() {
         // TODO: сортировка пузырьком (по возрастанию)
         boolean needToSort = true;
-        int tmp;
         while (needToSort) {
             needToSort = false;
             for (int i = 1; i < array.length; i++) {
                 if (array[i - 1] > array[i]) {
                     needToSort = true;
-                    tmp = array[i];
-                    array[i] = array[i - 1];
-                    array[i - 1] = tmp;
+                    swap(array, i, i - 1 );
                 }
             }
         }
@@ -136,12 +130,9 @@ public class StaticArray implements Array {
 
     private void insertionSort() {
         //TODO*: сортировка вставками (по возрастанию)
-        int tmp;
         for (int i = 1; i < array.length; i++) {
             for (int j = i; j > 0 || array[j] > array[j - 1]; j--) {
-                tmp = array[j];
-                array[j] = array[j - 1];
-                array[j - 1] = tmp;
+                swap(array, j, j-1);
             }
         }
     }
@@ -202,29 +193,33 @@ public class StaticArray implements Array {
                     lowIndex++;
                     equalIndex++;
                 } else{
-                    int temp = array[i];
-                    for(int j = lowIndex; j<i; j++){
-                        array[j] = temp;
-                        temp = array[j+1];
-                    }
                     lowIndex++;
                     equalIndex++;
+                    for(int j = i; j >= lowIndex; j--){
+                        swap(array, j, j-1);
+                    }
+
                 }
             } else if( array[i] == base){
                 if ( i <= equalIndex) {
                     equalIndex++;
                 } else{
-                    int temp = array[i];
-                    for(int j = equalIndex; j<i; j++){
-                        array[j] = temp;
-                        temp = array[j+1];
-                    }
                     equalIndex++;
+                    for(int j = i; j >= equalIndex; j--){
+                        swap(array, j, j-1);
+                    }
                 }
             }
+
+        }
+        if (start == lowIndex || equalIndex == end){
+            quickSortRec(start, start + (end - start)/2);
+            quickSortRec(start + (end - start)/2, end);
+        } else {
             quickSortRec(start, lowIndex);
             quickSortRec(equalIndex, end);
         }
+
     }
 
     public boolean isAscSorted() {
@@ -232,5 +227,11 @@ public class StaticArray implements Array {
         for (int i = 1; i < array.length; i++)
             if (array[i - 1] > array[i]) return false;
         return true;
+    }
+
+    private void swap (int [] array, int index1, int index2){
+        int temp = array[index1];
+        array[index1] = array[index2];
+        array[index2] = temp;
     }
 }
