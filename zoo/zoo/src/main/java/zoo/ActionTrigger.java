@@ -39,6 +39,16 @@ public class ActionTrigger {
     }
 
     /**
+     * Method for invoking "Watering animals" event for all animals of specified type
+     *
+     * @param animalType type of animals to visit (carnivore/herbivore)
+     */
+    void waterAnimals(AnimalType animalType) {
+        System.out.println("\n--- Watering " + animalType.name() + " ---");
+        zoo.performAction(Events.WATERING, animalType);
+    }
+
+    /**
      * Method for invoking "night time" event for all animals in the zoo
      */
     void setNight() {
@@ -53,11 +63,20 @@ public class ActionTrigger {
         System.out.println("\n--- Set morning ---");
         zoo.performAction(Events.MORNING);
     }
+
     /**
      * Method for invoking "thunder" event for all animals in the zoo
      */
     void setThunder() {
         System.out.println("\n--- Set thunder ---");
         zoo.performAction(Events.THUNDER);
+    }
+
+    /**
+     * Method for invoking "rain" event for all animals in the zoo
+     */
+    void setRain() {
+        System.out.println("\n--- Set rain ---");
+        zoo.performAction(Events.RAIN);
     }
 }

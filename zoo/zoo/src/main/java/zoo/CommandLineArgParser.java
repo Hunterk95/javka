@@ -1,5 +1,8 @@
 package zoo;
 
+/**
+ * Class for parse command line arguments
+ */
 public class CommandLineArgParser {
     private  ConfigType configType = ConfigType.json;
     private  String filePath;

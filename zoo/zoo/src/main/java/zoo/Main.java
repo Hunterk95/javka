@@ -43,5 +43,10 @@ public class Main {
 
         trigger.setMorning();
         zoo.printAllStates();
+
+        trigger.setRain();
+        zoo.printAllStates();
+        trigger.waterAnimals(herbivore);
+        zoo.printAllStates();
     }
 }

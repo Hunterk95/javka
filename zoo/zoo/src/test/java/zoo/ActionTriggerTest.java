@@ -42,6 +42,14 @@ public class ActionTriggerTest {
     }
 
     @Test
+    void waterAnimals() {
+        trigger.waterAnimals(carnivore);
+        assertEquals(zoo.getAllCarnivoreState(), AnimalState.CALM);
+        trigger.waterAnimals(herbivore);
+        assertEquals(zoo.getAllHerbivoreState(), AnimalState.CALM);
+    }
+
+    @Test
     void setNight() {
         zoo.setAllHerbivoreState(AnimalState.CALM);
         zoo.setAllCarnivoreState(AnimalState.CALM);
@@ -76,5 +84,11 @@ public class ActionTriggerTest {
         trigger.setThunder();
         assertEquals(zoo.getAllHerbivoreState(), AnimalState.MAKE_NOISE);
         assertEquals(zoo.getAllCarnivoreState(), AnimalState.MAKE_NOISE);
+    }
+
+    @Test
+    void setRain() {
+        trigger.setRain();
+        assertEquals(zoo.getAllHerbivoreState(), AnimalState.MAKE_NOISE);
     }
 }

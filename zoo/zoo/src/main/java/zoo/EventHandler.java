@@ -10,5 +10,4 @@ public interface EventHandler {
      * @param event event for animals to perform a certain actions
      */
     void updateState(Events event);
-
 }

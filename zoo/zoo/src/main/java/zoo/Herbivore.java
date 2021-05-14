@@ -41,6 +41,19 @@ public class Herbivore extends AnimalSpecies {
     }
 
     /**
+     * * Method for "species watering" event
+     * Changes state of species to CALM
+     * Changes zoo info about state of a herbivore type
+     * Prints species info
+     */
+    @Override
+    public void watering() {
+        currentState = AnimalState.CALM;
+        Zoo.setAllHerbivoreState(AnimalState.CALM);
+        printDescription();
+    }
+
+    /**
      * Method for "night time" event
      * Changes state of species to SLEEP if no one is making noises
      * Doesn't change state if anyone making noises
@@ -93,6 +106,19 @@ public class Herbivore extends AnimalSpecies {
         setCurrentState(AnimalState.MAKE_NOISE);
         Zoo.setAllHerbivoreState(AnimalState.MAKE_NOISE);
         Zoo.setAllCarnivoreState(AnimalState.MAKE_NOISE);
+        printDescription();
+    }
+
+    /**
+     * Method for "rain" event
+     * Changes state of species to MAKE_NOISE
+     * Changes zoo info about state of a herbivore and carnivore type to MAKE_NOISE
+     * Prints species info
+     */
+    @Override
+    public void rain() {
+        currentState = AnimalState.MAKE_NOISE;
+        Zoo.setAllHerbivoreState(AnimalState.MAKE_NOISE);
         printDescription();
     }
 }
