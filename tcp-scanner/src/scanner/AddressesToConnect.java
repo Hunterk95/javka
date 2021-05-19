@@ -13,6 +13,9 @@ public class AddressesToConnect {
     public AddressesToConnect(List<Address> addresses) {
         this.addresses = addresses;
         isChecked = new ArrayList<Boolean>(addresses.size());
+        for(int i = 0; i < addresses.size(); i++){
+            isChecked.add(false);
+        }
     }
 
     public Address getNext() {

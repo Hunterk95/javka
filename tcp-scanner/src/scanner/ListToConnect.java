@@ -16,6 +16,9 @@ public abstract class ListToConnect<T> {
     public ListToConnect(List<T> units) {
         this.units = units;
         isChecked = new ArrayList<Boolean>(units.size());
+        for(int i = 0; i < units.size(); i++){
+            isChecked.add(false);
+        }
     }
 
     /**
