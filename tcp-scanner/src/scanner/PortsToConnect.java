@@ -9,7 +9,8 @@ public class PortsToConnect extends ListToConnect<Integer> {
     }
 
     @Override
-    protected void isCheckedControl(int resultIndex) {
+    protected boolean isCheckedControl(int resultIndex) {
         isChecked.set(resultIndex, true);
+        return false;
     }
 }

@@ -8,20 +8,20 @@ public class Address {
     private Integer nextPort = 0;
     private InetAddress address;
 
-    public Address(InetAddress address, List<Integer> ports){
+    public Address(InetAddress address, List<Integer> ports) {
         this.address = address;
         this.ports = new PortsToConnect(ports);
     }
 
     public InetAddress getAddress() {
         nextPort = ports.getNext();
-        if(nextPort == null){
+        if (nextPort == null) {
             return null;
         }
         return address;
     }
 
-    public Integer getPort(){
+    public Integer getPort() {
         return nextPort;
     }
 }

@@ -28,18 +28,27 @@ public abstract class ListToConnect<T> {
         int startIndex = random.nextInt(units.size());
         for (int resultIndex = startIndex; resultIndex < units.size(); resultIndex++) {
             if (!isChecked.get(resultIndex)) {
-                isCheckedControl(resultIndex);
+                if(isCheckedControl(resultIndex)){
+                    continue;
+                }
                 return units.get(resultIndex);
             }
         }
         for(int resultIndex = 0; resultIndex < startIndex; resultIndex++) {
             if (!isChecked.get(resultIndex)) {
-                isCheckedControl(resultIndex);
+                if(isCheckedControl(resultIndex)){
+                    continue;
+                }
                 return units.get(resultIndex);
             }
         }
         return null;
     }
 
-    protected abstract void isCheckedControl(int prm);
+    /**
+     * Method that check and mark as checked elements of units to avoid units repeats
+     * @param prm Index of checked element
+     * @return false if you need to return current element or true if you need to go to the next
+     */
+    protected abstract boolean isCheckedControl(int prm);
 }
