@@ -7,23 +7,23 @@ public class TcpScanner {
     AddressesToConnect addresses;
     Address address;
 
-    public TcpScanner(AddressesToConnect addresses){
+    public TcpScanner(AddressesToConnect addresses) {
         this.addresses = addresses;
     }
 
-    public void scan(int numOfTreads){
+    public void scan(int numOfTreads) {
         System.out.println(connect(addresses.getNext()));
     }
 
     public boolean connect(Address address) {
-        Socket client = null;
-
+        Socket client = new Socket();
         try {
-            client = new Socket(address.getAddress(), address.getPort());
+            client.connect(new InetSocketAddress(address.getAddress(), address.getPort()), 100);
+            System.out.println("Address: " + address.getAddress().toString());
+            System.out.println("Port: " + address.getPort());
         } catch (IOException e) {
             //e.printStackTrace();
         }
-        if(client == null) return false;
         return client.isConnected();
     }
 }
