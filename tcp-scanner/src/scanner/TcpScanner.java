@@ -5,24 +5,21 @@ import java.net.*;
 
 public class TcpScanner {
     AddressesToConnect addresses;
-    //Address address;
 
     public TcpScanner(AddressesToConnect addresses) {
         this.addresses = addresses;
     }
 
     public void scan(int numOfTreads) {
-
-        for (Address nextAddress = addresses.getNext(); nextAddress != null; nextAddress = addresses.getNext()){
+        for (Address nextAddress = addresses.getNext(); nextAddress != null; nextAddress = addresses.getNext()) {
             System.out.println(connect(nextAddress));
         }
-
     }
 
     public boolean connect(Address address) {
         Socket client = new Socket();
         try {
-            client.connect(new InetSocketAddress(address.getAddress(), address.getPort()), 100);
+            client.connect(new InetSocketAddress(address.getAddress(), address.getPort()), 10);
         } catch (IOException e) {
             e.printStackTrace();
         }

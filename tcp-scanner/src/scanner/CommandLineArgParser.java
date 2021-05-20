@@ -41,43 +41,44 @@ public class CommandLineArgParser {
                             throw new NotFoundArgumentKeyValueException("-h");
                         }
                         i++;
-                        if (argv[i].matches(",")) {
-                            for (String host : argv[i].split(",")) {
-                                inetAddresses.add(InetAddress.getByName(host));
+                        for (String argHost : argv[i].split(",")) {
+                            if (argv[i].contains("-")) {
+                                String addressRange = argv[i].split("\\.")[argv[i].split("\\.").length - 1];
+                                String addressBeforeRange = argv[i].split(addressRange)[0];
+                                int firstAddress = Integer.parseInt(addressRange.split("-")[0]);
+                                int lastAddress = Integer.parseInt(addressRange.split("-")[1]);
+                                for (int lastAdrByte = firstAddress; lastAdrByte <= lastAddress; lastAdrByte++) {
+                                    inetAddresses.add(InetAddress.getByName(addressBeforeRange + lastAdrByte));
+                                }
+                            } else {
+                                inetAddresses.add(InetAddress.getByName(argHost));
                             }
-                        } else if (argv[i].contains("-")) {
-                            String addressRange = argv[i].split("\\.")[argv[i].split("\\.").length - 1];
-                            String addressBeforeRange = argv[i].split(addressRange)[0];
-                            int firstAddress = Integer.parseInt(addressRange.split("-")[0]);
-                            int lastAddress = Integer.parseInt(addressRange.split("-")[1]);
-                            for(int lastAdrByte = firstAddress; lastAdrByte <= lastAddress; lastAdrByte++){
-                                inetAddresses.add(InetAddress.getByName(addressBeforeRange + lastAdrByte));
-                            }
-                        } else {
-                            inetAddresses.add(InetAddress.getByName(argv[i]));
                         }
-
                         break;
+
                     case ("-p"):
                         if (argv.length <= i + 1) {
                             throw new NotFoundArgumentKeyValueException("-p");
                         }
                         i++;
-                        if (argv[i].matches(",")) {
-
-                        } else if (argv[i].matches("-")) {
-
-                        } else {
-                            ports.add(new Integer(argv[i]));
+                        for (String argPort : argv[i].split(",")) {
+                            if (argv[i].contains("-")) {
+                                int firsPort = Integer.parseInt(argv[i].split("-")[0]);
+                                int lastPort = Integer.parseInt(argv[i].split("-")[1]);
+                                for (int port = firsPort; port <= lastPort; port++) {
+                                    ports.add(port);
+                                }
+                            } else {
+                                ports.add(Integer.parseInt(argPort));
+                            }
                         }
-
                         break;
+
                     case ("-t"):
                         if (argv.length <= i + 1) {
                             throw new NotFoundArgumentKeyValueException("-t");
                         }
                         i++;
-
                 }
             }
             addresses = new ArrayList<>(inetAddresses.size());
@@ -85,7 +86,6 @@ public class CommandLineArgParser {
                 addresses.add(new Address(currentAddress, ports));
             }
             addressesToConnect = new AddressesToConnect(addresses);
-
 
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("WTF " + e.getMessage());

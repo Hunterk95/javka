@@ -13,7 +13,7 @@ public class Address {
         this.ports = new PortsToConnect(ports);
     }
 
-    public Boolean prepareNext(){
+    public Boolean prepareNext() {
         nextPort = ports.getNext();
         if (nextPort == null) {
             return false;
