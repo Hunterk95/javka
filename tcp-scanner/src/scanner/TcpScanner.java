@@ -12,7 +12,7 @@ public class TcpScanner {
 
     public void scan(int numOfTreads) {
         for (Address nextAddress = addresses.getNext(); nextAddress != null; nextAddress = addresses.getNext()) {
-            System.out.println(connect(nextAddress));
+            nextAddress.setSuccessConnect(connect(nextAddress));
         }
     }
 
@@ -21,7 +21,7 @@ public class TcpScanner {
         try {
             client.connect(new InetSocketAddress(address.getAddress(), address.getPort()), 10);
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         return client.isConnected();
     }

@@ -44,6 +44,14 @@ public abstract class ListToConnect<T> {
         return null;
     }
 
+    public List<T> getAllUnits() {
+        return units;
+    }
+
+    public int getUnitsNum() {
+        return units.size();
+    }
+
     /**
      * Method that check and mark as checked elements of units to avoid units repeats
      *

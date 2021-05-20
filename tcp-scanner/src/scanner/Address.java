@@ -28,4 +28,20 @@ public class Address {
     public Integer getPort() {
         return nextPort;
     }
+
+    public int getPortsNum() {
+        return ports.getUnitsNum();
+    }
+
+    public void setSuccessConnect(boolean success) {
+        ports.setSuccessConnect(success);
+    }
+
+    public List<Boolean> getAllConnectionsResult() {
+        return ports.getAllConnectionsResult();
+    }
+
+    public List<Integer> getAllPorts() {
+        return ports.getAllUnits();
+    }
 }
