@@ -42,9 +42,9 @@ public class CommandLineArgParser {
                         }
                         i++;
                         for (String argHost : argv[i].split(",")) {
-                            if (argv[i].contains("-")) {
-                                String addressRange = argv[i].split("\\.")[argv[i].split("\\.").length - 1];
-                                String addressBeforeRange = argv[i].split(addressRange)[0];
+                            if (argHost.contains("-")) {
+                                String addressRange = argHost.split("\\.")[argHost.split("\\.").length - 1];
+                                String addressBeforeRange = argHost.split(addressRange)[0];
                                 int firstAddress = Integer.parseInt(addressRange.split("-")[0]);
                                 int lastAddress = Integer.parseInt(addressRange.split("-")[1]);
                                 for (int lastAdrByte = firstAddress; lastAdrByte <= lastAddress; lastAdrByte++) {
@@ -62,9 +62,9 @@ public class CommandLineArgParser {
                         }
                         i++;
                         for (String argPort : argv[i].split(",")) {
-                            if (argv[i].contains("-")) {
-                                int firsPort = Integer.parseInt(argv[i].split("-")[0]);
-                                int lastPort = Integer.parseInt(argv[i].split("-")[1]);
+                            if (argPort.contains("-")) {
+                                int firsPort = Integer.parseInt(argPort.split("-")[0]);
+                                int lastPort = Integer.parseInt(argPort.split("-")[1]);
                                 for (int port = firsPort; port <= lastPort; port++) {
                                     ports.add(port);
                                 }
