@@ -10,7 +10,7 @@ public class AddressesToConnect extends ListToConnect<Address> {
 
     @Override
     protected boolean isCheckedControl(int resultIndex) {
-        if (units.get(resultIndex) == null) {
+        if (units.get(resultIndex).prepareNext() == false) {
             isChecked.set(resultIndex, true);
             return true;
         }

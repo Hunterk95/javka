@@ -13,11 +13,15 @@ public class Address {
         this.ports = new PortsToConnect(ports);
     }
 
-    public InetAddress getAddress() {
+    public Boolean prepareNext(){
         nextPort = ports.getNext();
         if (nextPort == null) {
-            return null;
+            return false;
         }
+        return true;
+    }
+
+    public InetAddress getAddress() {
         return address;
     }
 

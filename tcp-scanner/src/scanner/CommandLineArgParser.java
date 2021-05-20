@@ -9,24 +9,27 @@ import java.util.List;
  */
 public class CommandLineArgParser {
     final private String[] argv;
-    private List<Integer> ports = new ArrayList<>();
-    private List<Address> addresses;
-    private List<InetAddress> inetAddresses = new ArrayList<>();
-
-    public AddressesToConnect getAddresses() {
-        return addressesToConnect;
-    }
-
     private AddressesToConnect addressesToConnect;
-
+    private String filePath;
+    private int numOfThreads = 1;
 
     public CommandLineArgParser(String[] argv) {
         this.argv = argv;
     }
 
-    //private String filePath;
+    public AddressesToConnect getAddresses() {
+        return addressesToConnect;
+    }
+
+    public int getNumOfThreads() {
+        return numOfThreads;
+    }
 
     public void parse() {
+        List<Integer> ports = new ArrayList<>();
+        List<Address> addresses;
+        List<InetAddress> inetAddresses = new ArrayList<>();
+
         try {
             if (argv[0].compareTo("scan") != 0) {
                 throw new IllegalArgumentException("Not found command: scan");
@@ -39,9 +42,17 @@ public class CommandLineArgParser {
                         }
                         i++;
                         if (argv[i].matches(",")) {
-
-                        } else if (argv[i].matches("-")) {
-
+                            for (String host : argv[i].split(",")) {
+                                inetAddresses.add(InetAddress.getByName(host));
+                            }
+                        } else if (argv[i].contains("-")) {
+                            String addressRange = argv[i].split("\\.")[argv[i].split("\\.").length - 1];
+                            String addressBeforeRange = argv[i].split(addressRange)[0];
+                            int firstAddress = Integer.parseInt(addressRange.split("-")[0]);
+                            int lastAddress = Integer.parseInt(addressRange.split("-")[1]);
+                            for(int lastAdrByte = firstAddress; lastAdrByte <= lastAddress; lastAdrByte++){
+                                inetAddresses.add(InetAddress.getByName(addressBeforeRange + lastAdrByte));
+                            }
                         } else {
                             inetAddresses.add(InetAddress.getByName(argv[i]));
                         }
