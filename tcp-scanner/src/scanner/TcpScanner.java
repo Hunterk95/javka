@@ -3,6 +3,7 @@ package scanner;
 import java.io.IOException;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.concurrent.*;
 
 public class TcpScanner {
     AddressesToConnect addresses;
@@ -12,20 +13,32 @@ public class TcpScanner {
     }
 
     public void scan(int numOfTreads) {
-        for (Address nextAddress = addresses.getNext(); nextAddress != null; nextAddress = addresses.getNext()) {
-            nextAddress.setSuccessConnect(connect(nextAddress));
+        LinkedBlockingQueue<Runnable> queue = new LinkedBlockingQueue<>();
+        try {
+            for (Address nextAddress = addresses.getNext(); nextAddress != null; nextAddress = addresses.getNext()) {
+                queue.put(new ThreadConnect(nextAddress));
+            }
+        } catch (Exception e){
+
         }
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(numOfTreads, numOfTreads, 100, TimeUnit.MILLISECONDS, queue);
+        executor.prestartAllCoreThreads();
+        while (executor.getTaskCount() != executor.getCompletedTaskCount()){
+
+        }
+        executor.shutdown();
         printScanResult();
+
     }
 
-    public boolean connect(Address address) {
-        Socket client = new Socket();
-        try {
-            client.connect(new InetSocketAddress(address.getAddress(), address.getPort()), 10);
+    public static void connect(Address address, int port) {
+        try (Socket client = new Socket()) {
+            client.connect(new InetSocketAddress(address.getAddress(), port), 10);
+            address.setSuccessConnect(true);
         } catch (IOException e) {
             //e.printStackTrace();
+            address.setSuccessConnect(false);
         }
-        return client.isConnected();
     }
 
     public void printScanResult(){
