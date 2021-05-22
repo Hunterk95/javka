@@ -33,7 +33,7 @@ public class Address {
         return ports.getUnitsNum();
     }
 
-    public void setSuccessConnect(boolean success) {
+    public void setSuccessConnect(int port, boolean success) {
         ports.setSuccessConnect(success);
     }
 
