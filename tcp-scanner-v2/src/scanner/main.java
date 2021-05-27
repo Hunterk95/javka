@@ -5,13 +5,12 @@ public class main {
         CommandLineArgParser parser = new CommandLineArgParser(args);
         parser.parse();
 
-        try {
-            TcpScanner scanner = new TcpScanner(parser.getHosts(), parser.getPorts());
-            scanner.scan(parser.getNumOfThreads());
-            System.out.println(scanner);
 
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        TcpScanner scanner = new TcpScanner(parser.getHosts(), parser.getPorts());
+        scanner.scan(parser.getNumOfThreads());
+
+        scanner.saveJson("scan-result.json");
+        //System.out.println(scanner);
+
     }
 }

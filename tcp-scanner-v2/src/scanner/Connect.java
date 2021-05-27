@@ -18,4 +18,16 @@ public class Connect {
         return new StringBuilder().append(host).append(":").append(port).append(" connection ")
                 .append(successOfConnection ? "successful" : "unsuccessful").toString();
     }
+
+    public InetAddress getHost() {
+        return host;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public Boolean getSuccessOfConnection() {
+        return successOfConnection;
+    }
 }
