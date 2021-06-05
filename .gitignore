@@ -1,3 +1,4 @@
-/homework1.iml
-/src/course/task/*.class
-/.idea/
+*.iml
+*/target/*
+*.class
+*/.idea/

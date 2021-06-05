@@ -1,14 +1,20 @@
 package scanner;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.util.List;
 
 public class ThreadConnect implements Runnable {
-    InetAddress host;
-    int port;
+    private static final Logger logger = LogManager.getLogger(CommandLineArgParser.class.getName());
+
+    final private InetAddress host;
+    final private int port;
     private List<Connect> connectionsResults;
 
     public ThreadConnect(InetAddress host, int port, List<Connect> connectionsResults) {
@@ -25,14 +31,12 @@ public class ThreadConnect implements Runnable {
     public void connect(InetAddress host, int port) {
         try (Socket client = new Socket()) {
             client.connect(new InetSocketAddress(host, port), 10);
-            synchronized (connectionsResults) {
-                connectionsResults.add(new Connect(host, port, client.isConnected()));
-            }
-        } catch (IOException e) {
-            //e.printStackTrace();
-            synchronized (connectionsResults) {
-                connectionsResults.add(new Connect(host, port, false));
-            }
+            connectionsResults.add(new Connect(host, port, client.isConnected()));
+        } catch (SocketTimeoutException e) {
+            connectionsResults.add(new Connect(host, port, false));
+        } catch (IOException e){
+            connectionsResults.add(new Connect(host, port, false));
+            logger.error(e.getMessage(), e);
         }
     }
 }

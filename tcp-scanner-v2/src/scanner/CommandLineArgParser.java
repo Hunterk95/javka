@@ -1,5 +1,8 @@
 package scanner;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -8,9 +11,12 @@ import java.util.ArrayList;
  * Class for parse command line arguments
  */
 public class CommandLineArgParser {
+
+    private static final Logger logger = LogManager.getLogger(CommandLineArgParser.class.getName());
+
     final private String[] argv;
-    private ArrayList<InetAddress> hosts = new ArrayList<>();
-    private ArrayList<Integer> ports = new ArrayList<>();
+    final private ArrayList<InetAddress> hosts = new ArrayList<>();
+    final private ArrayList<Integer> ports = new ArrayList<>();
     private String filePath;
     private int numOfThreads = 1;
 
@@ -22,14 +28,19 @@ public class CommandLineArgParser {
         return ports;
     }
 
-    public CommandLineArgParser(String[] argv) {
-        this.argv = argv;
-    }
-
     public int getNumOfThreads() {
         return numOfThreads;
     }
 
+    public CommandLineArgParser(String[] argv) {
+        StringBuilder parsedString = new StringBuilder();
+        for (String arg : argv) {
+            parsedString.append(arg);
+            parsedString.append(' ');
+        }
+        logger.info("Create parser to string: " + parsedString);
+        this.argv = argv;
+    }
 
     public void parse() {
         try {
@@ -42,6 +53,7 @@ public class CommandLineArgParser {
                         if (argv.length <= i + 1) {
                             throw new NotFoundArgumentKeyValueException("-h");
                         }
+                        logger.debug("parse " + argv[i] + ' ' + argv[i + 1]);
                         parseHosts(argv[++i]);
                         break;
 
@@ -49,6 +61,7 @@ public class CommandLineArgParser {
                         if (argv.length <= i + 1) {
                             throw new NotFoundArgumentKeyValueException("-p");
                         }
+                        logger.debug("parse " + argv[i] + ' ' + argv[i + 1]);
                         parsePorts(argv[++i]);
                         break;
 
@@ -56,7 +69,9 @@ public class CommandLineArgParser {
                         if (argv.length <= i + 1) {
                             throw new NotFoundArgumentKeyValueException("-t");
                         }
+                        logger.debug("parse " + argv[i] + ' ' + argv[i + 1]);
                         numOfThreads = Integer.parseInt(argv[++i]);
+                        logger.debug("parsed: " + numOfThreads + " threads");
                         break;
 
                     default:
@@ -64,11 +79,13 @@ public class CommandLineArgParser {
                 }
             }
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("WTF " + e.getMessage());
+            logger.error("WTF " + e.getMessage(), e);
         } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+            logger.warn(e.getMessage());
+        } catch (UnknownHostException e) {
+            logger.warn(e.getMessage());
+        }catch (Exception e) {
+            logger.error(e.getMessage(), e);
         }
     }
 
@@ -86,6 +103,7 @@ public class CommandLineArgParser {
                 this.hosts.add(InetAddress.getByName(argHost));
             }
         }
+        logger.debug("parsed: " + this.hosts.size() + " hosts");
     }
 
     private void parsePorts(String ports) {
@@ -100,6 +118,7 @@ public class CommandLineArgParser {
                 this.ports.add(Integer.parseInt(argPort));
             }
         }
+        logger.debug("parsed: " + this.ports.size() + " ports");
     }
 }
 

@@ -3,9 +3,9 @@ package scanner;
 import java.net.InetAddress;
 
 public class Connect {
-    private InetAddress host;
-    private int port;
-    private Boolean successOfConnection;
+    final private InetAddress host;
+    final private int port;
+    final private Boolean successOfConnection;
 
     public Connect(InetAddress host, int port, Boolean successOfConnection) {
         this.host = host;
