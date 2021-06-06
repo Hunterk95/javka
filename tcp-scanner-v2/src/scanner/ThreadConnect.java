@@ -29,13 +29,20 @@ public class ThreadConnect implements Runnable {
     }
 
     public void connect(InetAddress host, int port) {
+        logger.trace("connect to" + host + ':' + port);
         try (Socket client = new Socket()) {
             client.connect(new InetSocketAddress(host, port), 10);
-            connectionsResults.add(new Connect(host, port, client.isConnected()));
+            synchronized (connectionsResults){
+                connectionsResults.add(new Connect(host, port, client.isConnected()));
+            }
         } catch (SocketTimeoutException e) {
-            connectionsResults.add(new Connect(host, port, false));
+            synchronized (connectionsResults){
+                connectionsResults.add(new Connect(host, port, false));
+            }
         } catch (IOException e){
-            connectionsResults.add(new Connect(host, port, false));
+            synchronized (connectionsResults){
+                connectionsResults.add(new Connect(host, port, false));
+            }
             logger.error(e.getMessage(), e);
         }
     }
