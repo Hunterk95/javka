@@ -54,6 +54,7 @@ public class TcpScanner {
         try {
             executor.awaitTermination(200, TimeUnit.MILLISECONDS);
             logger.debug("end scan");
+            logger.info("scanned " + connectionsResults.size() + " connections");
         } catch (InterruptedException e) {
             logger.error("scan error: ", e);
         }
