@@ -2,3 +2,4 @@
 */target/*
 *.class
 */.idea/
+./tcp-scanner-v2/scan-result.json

@@ -1,4 +1,4 @@
-package com.money_transefr.demo;
+package rest;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
